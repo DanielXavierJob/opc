@@ -234,6 +234,7 @@ func (ao *AutomationObject) Close() error {
 
 // NewAutomationObject connects to the COM object based on available wrappers.
 func NewAutomationObject(wrappers []string) (*AutomationObject, error) {
+
 	var err error
 	var unknown *ole.IUnknown
 	for _, wrapper := range wrappers {
@@ -476,24 +477,23 @@ func (conn *opcConnectionImpl) Close() error {
 }
 
 // NewConnection establishes a connection to the OpcServer object.
-func NewConnection(server string, nodes []string, tags []string) (*opcConnectionImpl, error) {
-	wrappers := []string{
-		server,
-	}
-
-	object, err := NewAutomationObject(wrappers)
+func NewConnection(server string, nodes []string, tags []string) (Connection, error) {
+	wrapper := []string{server}
+	object, err := NewAutomationObject(wrapper)
 	if err != nil {
-		return &opcConnectionImpl{}, err
+		return nil, err
 	}
 
 	items, err := object.TryConnect(server, nodes)
 	if err != nil {
-		return &opcConnectionImpl{}, err
+		return nil, err
 	}
+
 	err = items.Add(tags...)
 	if err != nil {
-		return &opcConnectionImpl{}, err
+		return nil, err
 	}
+
 	conn := opcConnectionImpl{
 		AutomationObject: object,
 		AutomationItems:  items,
