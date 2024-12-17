@@ -462,15 +462,17 @@ func (conn *opcConnectionImpl) fix() {
 }
 
 // Close closes the embedded types.
-func (conn *opcConnectionImpl) Close() {
+func (conn *opcConnectionImpl) Close() error {
 	conn.mu.Lock()
 	defer conn.mu.Unlock()
 	if conn.AutomationObject != nil {
-		conn.AutomationObject.Close()
+		err := conn.AutomationObject.Close()
+		return err
 	}
 	if conn.AutomationItems != nil {
 		conn.AutomationItems.Close()
 	}
+	return nil
 }
 
 // NewConnection establishes a connection to the OpcServer object.
