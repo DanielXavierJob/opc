@@ -1,4 +1,4 @@
-module github.com/konimarti/opc
+module github.com/DanielXavierJob/opc
 
 go 1.19
 
