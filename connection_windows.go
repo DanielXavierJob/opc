@@ -233,8 +233,12 @@ func (ao *AutomationObject) Close() error {
 }
 
 // NewAutomationObject connects to the COM object based on available wrappers.
-func NewAutomationObject(wrappers []string) (*AutomationObject, error) {
-
+func NewAutomationObject(wrapperss []string) (*AutomationObject, error) {
+	wrappers := []string{
+		"OPC.Automation.1",
+		"Graybox.OPC.DAWrapper.1",
+		"Matrikon.OPC.Automation.1",
+	}
 	var err error
 	var unknown *ole.IUnknown
 	for _, wrapper := range wrappers {
