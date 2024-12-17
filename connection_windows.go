@@ -474,7 +474,7 @@ func (conn *opcConnectionImpl) Close() {
 }
 
 // NewConnection establishes a connection to the OpcServer object.
-func NewConnection(server string, nodes []string, tags []string) (Connection, error) {
+func NewConnection(server string, nodes []string, tags []string) (*opcConnectionImpl, error) {
 	wrappers := []string{
 		server,
 	}
