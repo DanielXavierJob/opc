@@ -42,19 +42,20 @@ const (
 type Connection interface {
 	Add(...string) error
 	Remove(string)
-	Read() map[string]Item
+	Read() (map[string]Item, error)
 	ReadItem(string) Item
 	Tags() []string
 	Write(string, interface{}) error
-	Close() error
-	IsConnected() (bool, error)
+	Close()
 }
 
 // Item stores the result of an OPC item from the OPC server.
 type Item struct {
+	Tag       string
 	Value     interface{}
 	Quality   int16
 	Timestamp time.Time
+	Err       interface{}
 }
 
 // Good checks the quality of the Item
